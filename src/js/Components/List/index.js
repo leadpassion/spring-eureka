@@ -11,15 +11,36 @@ export default class extends Component {
     onReOrder: PropTypes.func,
     rowHeight: PropTypes.number.isRequired,
     rowWidth: PropTypes.number,
-    gutter: PropTypes.number
+    gutter: PropTypes.number,
+    springConfig: PropTypes.shape({
+      stiffness: PropTypes.number,
+      damping: PropTypes.number,
+      precision: PropTypes.number
+    })
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      order: Array.from(
-        Array(this.formatChildren(props.children).length).keys()
-      )
+      order:
+        props.order === undefined
+          ? Array.from(Array(this.formatChildren(props.children).length).keys())
+          : null
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { order } = this.state
+    const { children } = nextProps
+    if (
+      this.props.order === undefined &&
+      this.formatChildren(children).length !== order.length
+    ) {
+      this.setState({
+        order: Array.from(
+          Array(this.formatChildren(nextProps.children).length).keys()
+        )
+      })
     }
   }
 
@@ -51,10 +72,7 @@ export default class extends Component {
         onReOrder={this.onReOrder}
         gutter={typeof gutter === "number" ? gutter : 0.1 * props.rowHeight}
       >
-        {this.formatChildren(children)
-          .map((child, idx) => [child, this.getOrder[idx]])
-          .sort((a, b) => a[1] - b[1])
-          .map(child => child[0])}
+        {this.formatChildren(children)}
       </Motion>
     )
   }

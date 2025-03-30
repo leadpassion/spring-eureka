@@ -22,7 +22,7 @@ import List from 'react-smooth-draggable-list'
 ```javascript
 const items = [1, 2, 3]
 <List rowHeight={80}>{
-  items.map(item => <div>item {item}</div>)
+  items.map(item => <List.Item>item {item}</List.Item>)
 }</List>
 ```
 
@@ -39,9 +39,9 @@ class MyList extends React.Component {
         order={this.state.order}
         onReOrder={order => this.setState({order})}
       >
-        <div>item 1</div>
-        <div>item 2</div>
-        <div>item 3</div>
+        <List.Item>item 1</List.Item>
+        <List.Item>item 2</List.Item>
+        <List.Item>item 3</List.Item>
       </List>
     )
   }
@@ -55,15 +55,17 @@ You can find more examples in the [demo source code](https://github.com/mac-s-g/
 ##### List:
 Name|Type|Default|Description
 |:---|:---|:---|:---
-`order`|array|`null`|`order` is optional - when it is not defined, the list will be uncontrolled.
+`order`|array|`null`|`order` is _optional_ - when it is not defined, the list will be uncontrolled.
 `onReOrder`|`(order) => {}`|`null`|The `onReOrder` callback is invoked every time a user changes the list order.  `order` is a list of integers representing the order of items.
 `rowHeight`|integer|`0`|*Required:* `RowHeight` defines the height of each list item in pixels.
 `rowWidth`|integer|`null`|`RowWidth` defines the width of the list component in pixels.  Width defaults to 100% of parent.
 `gutter`|number|`null`|Amount of space between list items in pixels. Defaults to `0.1 *  props.rowHeight`.
+`springConfig`|object|`null`|Drag animation control. Object has three keys. `stiffness`: _optional_, defaults to `300`. `damping`: _optional_, defaults to `50`. `precision`: _optional_, defaults to `0.05`.
 
 ##### List.Item:
 Name|Type|Default|Description
 |:---|:---|:---|:---
+`dragHandle`|_Component_|`null`|Pass in a functional component.  See `DragHandle` in [demo source code](https://github.com/mac-s-g/react-smooth-draggable-list/blob/master/demo/js/Examples.js) for an example.
 `disabled`|boolean|`false`|Allows user to disable list items.
 
 
